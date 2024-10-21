@@ -2,14 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:dicoding_events/widgets/corousel_events.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
@@ -29,13 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(height: 16),
             Text("Upcoming Events"),
             SizedBox(height: 8),
-            Expanded(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [Expanded(child: CorouselEvents())],
-              ),
-            )
+            CorouselEvents()
           ],
         ),
       ),

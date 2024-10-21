@@ -1,3 +1,4 @@
+import 'package:dicoding_events/widgets/corousel_items.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:dicoding_events/models/event.dart';
@@ -75,39 +76,13 @@ class _CorouselEventsState extends State<CorouselEvents> {
     if (_eventDicoding.isEmpty) {
       return const Center(child: CircularProgressIndicator());
     }
+
     return SizedBox(
       height: 200,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: _eventDicoding.length,
-        itemBuilder: (ctx, index) => Card(
-          clipBehavior: Clip.hardEdge,
-          margin: const EdgeInsets.symmetric(horizontal: 10),
-          elevation: 10,
-          shape:
-              BeveledRectangleBorder(borderRadius: BorderRadius.circular(1.0)),
-          child: Stack(
-            children: [
-              Image.network(
-                _eventDicoding[index].mediaCover,
-                fit: BoxFit.cover,
-              ),
-              Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10, bottom: 10),
-                  child: Text(
-                    _eventDicoding[index].name,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(color: Colors.blue),
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
+        itemBuilder: (ctx, index) => CorouselItems(mediaCover: _eventDicoding[index].mediaCover, name: _eventDicoding[index].name)
       ),
     );
   }
