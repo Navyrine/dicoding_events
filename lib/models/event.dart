@@ -27,7 +27,7 @@ class Event {
   final String cityName;
   final int quota;
   final int registrants;
-  final DateTime beginTime;
-  final DateTime endTime;
+  final String beginTime;
+  final String endTime;
   final String link;
 }
