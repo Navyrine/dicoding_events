@@ -62,7 +62,6 @@ class _CorouselEventsState extends State<CorouselEvents> {
     } catch (e) {
       setState(() {
         _error = "Something went wrong: $e";
-        print(e);
       });
     }
   }

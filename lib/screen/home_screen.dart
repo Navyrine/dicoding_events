@@ -1,4 +1,4 @@
-
+import 'package:dicoding_events/widgets/event_list.dart';
 import 'package:flutter/material.dart';
 import 'package:dicoding_events/widgets/corousel_events.dart';
 
@@ -12,6 +12,7 @@ class HomeScreen extends StatelessWidget {
         padding: EdgeInsets.all(8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(height: 40),
             Text(
@@ -23,7 +24,11 @@ class HomeScreen extends StatelessWidget {
             SizedBox(height: 16),
             Text("Upcoming Events"),
             SizedBox(height: 8),
-            CorouselEvents()
+            CorouselEvents(),
+            SizedBox(height: 40),
+            Text("Finished Events"),
+            SizedBox(height: 16,),
+            Expanded(child: EventList())
           ],
         ),
       ),
