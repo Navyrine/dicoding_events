@@ -1,4 +1,4 @@
-import 'package:dicoding_events/screen/home_screen.dart';
+import 'package:dicoding_events/screen/tab_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: HomeScreen(),
+      home: TabScreen(),
     );
   }
 }
