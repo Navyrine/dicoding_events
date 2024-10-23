@@ -1,4 +1,6 @@
+import 'package:dicoding_events/screen/finished_event_screen.dart';
 import 'package:dicoding_events/screen/home_screen.dart';
+import 'package:dicoding_events/screen/upcoming_event_screen.dart';
 import 'package:flutter/material.dart';
 
 class TabScreen extends StatefulWidget {
@@ -21,6 +23,14 @@ class _TabScreenState extends State<TabScreen> {
   Widget build(BuildContext context) {
     Widget activeScreen = const HomeScreen();
 
+    if (_selectedIndex == 1) {
+      activeScreen = const UpcomingEventScreen();
+    }
+
+    if (_selectedIndex == 2) {
+      activeScreen = const FinishedEventScreen();
+    }
+
     return Scaffold(
       body: activeScreen,
       bottomNavigationBar: BottomNavigationBar(
@@ -38,7 +48,7 @@ class _TabScreenState extends State<TabScreen> {
             icon: Icon(Icons.schedule),
           ),
           BottomNavigationBarItem(
-            label: "Finished Coming",
+            label: "Finished Events",
             icon: Icon(Icons.event_available),
           ),
         ],
