@@ -11,10 +11,18 @@ class CorouselItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.4),
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
       clipBehavior: Clip.hardEdge,
-      elevation: 10,
       child: Stack(
         children: [
           Image.network(
