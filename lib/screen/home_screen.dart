@@ -7,27 +7,26 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Padding(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "Dicoding Events",
+          style: TextStyle(
+            fontSize: 28,
+          ),
+        ),
+      ),
+      body: const Padding(
         padding: EdgeInsets.all(8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(height: 40),
-            Text(
-              "Dicoding Events",
-              style: TextStyle(
-                fontSize: 28,
-              ),
-            ),
-            SizedBox(height: 16),
             Text("Upcoming Events"),
             SizedBox(height: 8),
-            CorouselEvents(),
-            SizedBox(height: 40),
+            SizedBox(height: 197, child: CorouselEvents()),
+            SizedBox(height: 20),
             Text("Finished Events"),
-            SizedBox(height: 16,),
+            SizedBox(height: 8),
             Expanded(child: EventList())
           ],
         ),

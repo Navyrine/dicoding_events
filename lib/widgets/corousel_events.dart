@@ -76,13 +76,12 @@ class _CorouselEventsState extends State<CorouselEvents> {
       return const Center(child: CircularProgressIndicator());
     }
 
-    return SizedBox(
-      height: 200,
-      child: ListView.builder(
+    return ListView.separated(
+      shrinkWrap: true,
+      separatorBuilder: (context, index) => const SizedBox(width: 10),
         scrollDirection: Axis.horizontal,
-        itemCount: _eventDicoding.length,
-        itemBuilder: (ctx, index) => CorouselItems(mediaCover: _eventDicoding[index].mediaCover, name: _eventDicoding[index].name)
-      ),
+        itemCount: _eventDicoding.length >= 5 ? 5 : _eventDicoding.length,
+        itemBuilder: (ctx, index) => CorouselItems(mediaCover: _eventDicoding[index].mediaCover, name: _eventDicoding[index].name),
     );
   }
 }
