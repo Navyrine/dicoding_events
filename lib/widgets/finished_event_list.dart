@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dicoding_events/models/event.dart';
-import 'package:dicoding_events/widgets/home_event_item.dart';
+import 'package:dicoding_events/widgets/event_item.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -15,7 +15,7 @@ class FinishedEventList extends StatefulWidget {
 }
 
 class _EventListState extends State<FinishedEventList> {
-  List<Event> _finisehdEventDicoding = [];
+  List<Event> _finishedEventDicoding = [];
   String? _error;
 
   @override
@@ -54,7 +54,7 @@ class _EventListState extends State<FinishedEventList> {
           ));
         }
         setState(() {
-          _finisehdEventDicoding = laoddedItem;
+          _finishedEventDicoding = laoddedItem;
         });
       } else {
         _error = "Failed to load data";
@@ -70,7 +70,7 @@ class _EventListState extends State<FinishedEventList> {
       return Center(child: Text(_error!));
     }
 
-    if (_finisehdEventDicoding.isEmpty) {
+    if (_finishedEventDicoding.isEmpty) {
       return const Center(child: CircularProgressIndicator());
     }
 
@@ -78,11 +78,11 @@ class _EventListState extends State<FinishedEventList> {
       padding: const EdgeInsets.all(0.0),
       shrinkWrap: true,
       separatorBuilder: (ctx, index) => const SizedBox(height: 15),
-      itemCount: _finisehdEventDicoding.length,
+      itemCount: _finishedEventDicoding.length,
       itemBuilder: (ctx, index) => EventItem(
-          mediaCover: _finisehdEventDicoding[index].mediaCover,
-          category: _finisehdEventDicoding[index].category,
-          name: _finisehdEventDicoding[index].name),
+          mediaCover: _finishedEventDicoding[index].mediaCover,
+          category: _finishedEventDicoding[index].category,
+          name: _finishedEventDicoding[index].name),
     );
   }
 }

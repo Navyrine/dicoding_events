@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class EventItem extends StatelessWidget {
-  const EventItem(
+class HomeEventItem extends StatelessWidget {
+  const HomeEventItem(
       {super.key,
       required this.mediaCover,
       required this.category,
@@ -31,14 +31,6 @@ class EventItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               child: Image.network(
                 mediaCover,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) {
-                    return child;
-                  }
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                },
               ),
             ),
             Expanded(

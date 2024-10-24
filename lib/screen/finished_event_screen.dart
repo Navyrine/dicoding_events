@@ -13,7 +13,7 @@ class FinishedEventScreen extends StatelessWidget {
           style: TextStyle(fontSize: 28),
         ),
       ),
-      body: const FinishedEventList(),
+      body:const FinishedEventList(),
     );
   }
 }

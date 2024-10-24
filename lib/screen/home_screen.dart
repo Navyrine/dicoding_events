@@ -27,7 +27,7 @@ class HomeScreen extends StatelessWidget {
             SizedBox(height: 20),
             Text("Finished Events"),
             SizedBox(height: 8),
-            Expanded(child: EventList())
+            Expanded(child: HomeEventList())
           ],
         ),
       ),

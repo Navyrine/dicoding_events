@@ -5,16 +5,16 @@ import 'package:dicoding_events/widgets/home_event_item.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class EventList extends StatefulWidget {
-  const EventList({super.key});
+class HomeEventList extends StatefulWidget {
+  const HomeEventList({super.key});
 
   @override
-  State<EventList> createState() {
+  State<HomeEventList> createState() {
     return _EventListState();
   }
 }
 
-class _EventListState extends State<EventList> {
+class _EventListState extends State<HomeEventList> {
   List<Event> _eventDicoding = [];
   String? _error;
 
@@ -79,7 +79,7 @@ class _EventListState extends State<EventList> {
       shrinkWrap: true,
       separatorBuilder: (ctx, index) => const SizedBox(height: 15),
       itemCount: _eventDicoding.length >= 5 ? 5 : _eventDicoding.length,
-      itemBuilder: (ctx, index) => EventItem(
+      itemBuilder: (ctx, index) => HomeEventItem(
           mediaCover: _eventDicoding[index].mediaCover,
           category: _eventDicoding[index].category,
           name: _eventDicoding[index].name),

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dicoding_events/models/event.dart';
-import 'package:dicoding_events/widgets/home_event_item.dart';
+import 'package:dicoding_events/widgets/event_item.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -77,7 +77,7 @@ class _EventListState extends State<UpcomingEventList> {
     return ListView.separated(
       padding: const EdgeInsets.all(0.0),
       shrinkWrap: true,
-      separatorBuilder: (ctx, index) => const SizedBox(height: 15),
+      separatorBuilder: (ctx, index) => const SizedBox(height: 1),
       itemCount: _upcomingEventDicoding.length,
       itemBuilder: (ctx, index) => EventItem(
           mediaCover: _upcomingEventDicoding[index].mediaCover,
