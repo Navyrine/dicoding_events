@@ -17,22 +17,29 @@ class EventItem extends StatelessWidget {
       height: 70,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.4),
-            offset: const Offset(0, 8)
-          )
-        ]
-      ),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.grey.withOpacity(0.4), offset: const Offset(0, 8))
+          ]),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: Image.network(mediaCover),
+              child: Image.network(
+                mediaCover,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) {
+                    return child;
+                  }
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+              ),
             ),
             Expanded(
               child: Padding(

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dicoding_events/models/event.dart';
-import 'package:dicoding_events/widgets/event_item.dart';
+import 'package:dicoding_events/widgets/home_event_item.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 

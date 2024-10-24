@@ -1,4 +1,4 @@
-import 'package:dicoding_events/widgets/event_list.dart';
+import 'package:dicoding_events/widgets/home_event_list.dart';
 import 'package:flutter/material.dart';
 import 'package:dicoding_events/widgets/corousel_events.dart';
 
