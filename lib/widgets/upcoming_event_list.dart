@@ -17,6 +17,7 @@ class UpcomingEventList extends StatefulWidget {
 class _EventListState extends State<UpcomingEventList> {
   List<Event> _upcomingEventDicoding = [];
   String? _error;
+  var _isLoading = true;
 
   @override
   void initState() {
@@ -30,48 +31,66 @@ class _EventListState extends State<UpcomingEventList> {
     try {
       final response = await http.get(url);
 
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> jsonData = json.decode(response.body);
-        final List<Event> laoddedItem = [];
-        final List<dynamic> convertDataJson = jsonData["listEvents"];
-
-        for (final item in convertDataJson) {
-          laoddedItem.add(Event(
-            id: item["id"],
-            name: item["name"],
-            summary: item["summary"],
-            description: item["description"],
-            imageLogo: item["imageLogo"],
-            mediaCover: item["mediaCover"],
-            category: item["category"],
-            ownerName: item["ownerName"],
-            cityName: item["cityName"],
-            quota: item["quota"],
-            registrants: item["registrants"],
-            beginTime: item["beginTime"],
-            endTime: item["endTime"],
-            link: item["link"],
-          ));
-        }
+      if (response.statusCode >= 400) {
         setState(() {
-          _upcomingEventDicoding = laoddedItem;
+          _isLoading = false;
+          _error = "Failed to fetch data";
         });
-      } else {
-        _error = "Failed to load data";
       }
+
+      if (response.body == "null") {
+        setState(() {
+          _isLoading = false;
+        });
+        return;
+      }
+
+      final Map<String, dynamic> jsonData = json.decode(response.body);
+      final List<Event> laoddedItem = [];
+      final List<dynamic> convertDataJson = jsonData["listEvents"];
+
+      for (final item in convertDataJson) {
+        laoddedItem.add(Event(
+          id: item["id"],
+          name: item["name"],
+          summary: item["summary"],
+          description: item["description"],
+          imageLogo: item["imageLogo"],
+          mediaCover: item["mediaCover"],
+          category: item["category"],
+          ownerName: item["ownerName"],
+          cityName: item["cityName"],
+          quota: item["quota"],
+          registrants: item["registrants"],
+          beginTime: item["beginTime"],
+          endTime: item["endTime"],
+          link: item["link"],
+        ));
+      }
+      setState(() {
+        _isLoading = false;
+        _upcomingEventDicoding = laoddedItem;
+      });
     } catch (e) {
-      _error = "Something went wrong: $e";
+      setState(() {
+        _isLoading = false;
+        _error = "Something went wrong: $e";
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_error != null) {
-      return Center(child: Text(_error!));
+    if (_isLoading) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
     }
 
-    if (_upcomingEventDicoding.isEmpty) {
-      return const Center(child: CircularProgressIndicator());
+    if (_error != null) {
+      return Center(
+        child: Text(_error!),
+      );
     }
 
     return ListView.separated(

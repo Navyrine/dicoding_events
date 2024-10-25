@@ -14,6 +14,7 @@ class CorouselEvents extends StatefulWidget {
 class _CorouselEventsState extends State<CorouselEvents> {
   List<Event> _eventDicoding = [];
   String? _error;
+  var _isLoading = true;
 
   @override
   void initState() {
@@ -27,40 +28,52 @@ class _CorouselEventsState extends State<CorouselEvents> {
     try {
       final response = await http.get(url);
 
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> jsonData = json.decode(response.body);
-        final List<Event> loadedItem = [];
-        final List<dynamic> convertDataJson = jsonData["listEvents"];
-
-        for (final item in convertDataJson) {
-          loadedItem.add(
-            Event(
-              id: item["id"],
-              name: item["name"],
-              summary: item["summary"],
-              description: item["description"],
-              imageLogo: item["imageLogo"],
-              mediaCover: item["mediaCover"],
-              category: item["category"],
-              ownerName: item["ownerName"],
-              cityName: item["cityName"],
-              quota: item["quota"],
-              registrants: item["registrants"],
-              beginTime: item["beginTime"],
-              endTime: item["endTime"],
-              link: item["link"],
-            ),
-          );
-        }
-
+      if (response.statusCode >= 400) {
         setState(() {
-          _eventDicoding = loadedItem;
+          _isLoading = false;
+          _error = "Failed to fetch data";
         });
-      } else {
-        _error = "Failed to load data";
       }
+
+      if (response.body == "null") {
+        setState(() {
+          _isLoading = false;
+        });
+        return;
+      }
+
+  
+      final Map<String, dynamic> jsonData = json.decode(response.body);
+      final List<Event> loadedItem = [];
+      final List<dynamic> convertDataJson = jsonData["listEvents"];
+
+      for (final item in convertDataJson) {
+        loadedItem.add(
+          Event(
+            id: item["id"],
+            name: item["name"],
+            summary: item["summary"],
+            description: item["description"],
+            imageLogo: item["imageLogo"],
+            mediaCover: item["mediaCover"],
+            category: item["category"],
+            ownerName: item["ownerName"],
+            cityName: item["cityName"],
+            quota: item["quota"],
+            registrants: item["registrants"],
+            beginTime: item["beginTime"],
+            endTime: item["endTime"],
+            link: item["link"],
+          ),
+        );
+      }
+      setState(() {
+        _isLoading = false;
+        _eventDicoding = loadedItem;
+      });
     } catch (e) {
       setState(() {
+        _isLoading = false;
         _error = "Something went wrong: $e";
       });
     }
@@ -68,20 +81,23 @@ class _CorouselEventsState extends State<CorouselEvents> {
 
   @override
   Widget build(BuildContext context) {
-    if (_error != null) {
-      return Center(child: Text(_error!));
+    if (_isLoading) {
+      return const Center(child: CircularProgressIndicator(),);
     }
 
-    if (_eventDicoding.isEmpty) {
-      return const Center(child: CircularProgressIndicator());
+    if (_error != null) {
+      return Center(child: Text(_error!),);
     }
+
 
     return ListView.separated(
       shrinkWrap: true,
       separatorBuilder: (context, index) => const SizedBox(width: 10),
-        scrollDirection: Axis.horizontal,
-        itemCount: _eventDicoding.length >= 5 ? 5 : _eventDicoding.length,
-        itemBuilder: (ctx, index) => CorouselItems(mediaCover: _eventDicoding[index].mediaCover, name: _eventDicoding[index].name),
+      scrollDirection: Axis.horizontal,
+      itemCount: _eventDicoding.length >= 5 ? 5 : _eventDicoding.length,
+      itemBuilder: (ctx, index) => CorouselItems(
+          mediaCover: _eventDicoding[index].mediaCover,
+          name: _eventDicoding[index].name),
     );
   }
 }
