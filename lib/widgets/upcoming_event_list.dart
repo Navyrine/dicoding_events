@@ -1,107 +1,41 @@
-import 'dart:convert';
-
-import 'package:dicoding_events/models/event.dart';
+import 'package:dicoding_events/provider/upcoming_event_provider.dart';
 import 'package:dicoding_events/widgets/event_item.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class UpcomingEventList extends StatefulWidget {
+class UpcomingEventList extends ConsumerWidget {
   const UpcomingEventList({super.key});
 
   @override
-  State<UpcomingEventList> createState() {
-    return _EventListState();
-  }
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final upcomingEvent = ref.watch(upcomingEventProvider);
 
-class _EventListState extends State<UpcomingEventList> {
-  List<Event> _upcomingEventDicoding = [];
-  String? _error;
-  var _isLoading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadItems();
-  }
-
-  void _loadItems() async {
-    final url = Uri.https("event-api.dicoding.dev", "events", {"active": "1"});
-
-    try {
-      final response = await http.get(url);
-
-      if (response.statusCode >= 400) {
-        setState(() {
-          _isLoading = false;
-          _error = "Failed to fetch data";
-        });
-      }
-
-      if (response.body == "null") {
-        setState(() {
-          _isLoading = false;
-        });
-        return;
-      }
-
-      final Map<String, dynamic> jsonData = json.decode(response.body);
-      final List<Event> laoddedItem = [];
-      final List<dynamic> convertDataJson = jsonData["listEvents"];
-
-      for (final item in convertDataJson) {
-        laoddedItem.add(Event(
-          id: item["id"],
-          name: item["name"],
-          summary: item["summary"],
-          description: item["description"],
-          imageLogo: item["imageLogo"],
-          mediaCover: item["mediaCover"],
-          category: item["category"],
-          ownerName: item["ownerName"],
-          cityName: item["cityName"],
-          quota: item["quota"],
-          registrants: item["registrants"],
-          beginTime: item["beginTime"],
-          endTime: item["endTime"],
-          link: item["link"],
-        ));
-      }
-      setState(() {
-        _isLoading = false;
-        _upcomingEventDicoding = laoddedItem;
-      });
-    } catch (e) {
-      setState(() {
-        _isLoading = false;
-        _error = "Something went wrong: $e";
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (_isLoading) {
-      return const Center(
+    return upcomingEvent.when(
+      data: (upcoming) {
+        if (upcoming.isEmpty) {
+          return const Center(
+            child: Text('No event available'),
+          );
+        }
+        return ListView.separated(
+          padding: const EdgeInsets.all(0.0),
+          shrinkWrap: true,
+          separatorBuilder: (ctx, index) => const SizedBox(height: 1),
+          itemCount: upcoming.length,
+          itemBuilder: (ctx, index) => EventItem(
+              mediaCover: upcoming[index].mediaCover,
+              category: upcoming[index].category,
+              name: upcoming[index].name),
+        );
+      },
+      error: (error, stack) => Center(
+        child: Text(
+          error.toString(),
+        ),
+      ),
+      loading: () => const Center(
         child: CircularProgressIndicator(),
-      );
-    }
-
-    if (_error != null) {
-      return Center(
-        child: Text(_error!),
-      );
-    }
-
-    return ListView.separated(
-      padding: const EdgeInsets.all(0.0),
-      shrinkWrap: true,
-      separatorBuilder: (ctx, index) => const SizedBox(height: 1),
-      itemCount: _upcomingEventDicoding.length,
-      itemBuilder: (ctx, index) => EventItem(
-          mediaCover: _upcomingEventDicoding[index].mediaCover,
-          category: _upcomingEventDicoding[index].category,
-          name: _upcomingEventDicoding[index].name),
+      ),
     );
   }
 }
